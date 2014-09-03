@@ -1,0 +1,155 @@
+.app-container {
+    /*width: 100%;*/
+    /*max-width: 500px;*/
+    margin: 15px;
+}
+
+.app-content {
+    width: 100%;
+    margin: auto;
+    max-width: 1000px;
+}
+
+.app-name {
+    color: #000FFF;
+    font-size: 30px;
+    margin: 20px 0 30px;
+}
+
+.app-description {
+    margin-bottom: 25px;
+}
+
+.btn-default {
+    background-color: #BBB !important;
+    border-color: #BBB !important;
+}
+
+.btn-default:hover {
+    background-color: #AAA !important;
+    border-color: #AAA !important;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.uml-settings {
+    padding: 30px;
+    /*padding-bottom: 0;*/
+    margin-bottom: 30px;
+    background: #FAFAFA;
+}
+
+.uml-settings .form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.or-separator {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0 10px;
+}
+
+.or-separator::before, .or-separator::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #CCC;
+    /*margin-top: -10px;*/
+    width: 30%;
+    width: 45%;
+}
+
+.or-separator::after {
+    /*border-color: green;*/
+    left: 70%;
+    left: 55%;
+}
+
+@media (min-width: 768px) {
+    .btn-reset {
+        width: 24%;
+        margin-right: 1%;
+        float: left;
+    }
+
+    .btn-submit {
+        width: 75%;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .or-separator {
+        width: 60px;
+        position: absolute;
+        left: -35px;
+        top: 40px;
+        transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        margin: 0;
+    }
+    
+    .or-separator::before, .or-separator::after {
+        width: 30%;
+    }
+
+    .or-separator::after {
+        left: 70%;
+    }
+}
+
+
+.preview-block {
+    background: #FAFAFA;
+    padding: 15px;
+    margin: 15px 0 30px 0;
+}
+
+.preview-block .class-name {
+    font-size: 22px;
+    margin: 10px 0;
+    color: #555;
+}
+
+.preview-block .file-name {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #AAA;
+}
+
+.preview-block .file-name-new {
+    color: #04AF05;
+}
+
+.preview-block .file-name-existing {
+    color: #F00;
+}
+
+.preview-block .file-name-existing-warning {
+    color: #F08D00;
+}
+
+.preview-block textarea {
+    border: 1px solid #CCC;
+    border: 1px solid #DDD;
+    width: 100%;
+    /*height: 100px;*/
+    /*max-height: 350px;*/
+    /*height: 350px;*/
+}
+
+/*.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}*/

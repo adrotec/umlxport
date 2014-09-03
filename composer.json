@@ -1,0 +1,24 @@
+{
+    "name": "adrotec/umlxport",
+    "description": "Generate Doctrine Mappings from your UML class diagrams.",
+    "authors": [
+        {
+            "name": "Muhammad Safraz Razik",
+            "email": "mr.safraz@gmail.com"
+        }
+    ],
+    "require": {
+        "doctrine/annotations": "1.2.*",
+        "doctrine/orm": "2.4.*",
+        "symfony/dom-crawler": "2.5.*",
+        "symfony/css-selector": "2.5.*",
+        "symfony/http-foundation": "2.5.*",
+        "symfony/yaml": "2.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Adrotec\\UmlXport": "src"
+        }
+    },
+    "minimum-stability": "stable"
+}
