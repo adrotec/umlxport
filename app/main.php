@@ -186,7 +186,7 @@ if($settings->action == ExportSettings::ACTION_GENERATE && !empty($settings->map
 function sendFile($filePath, $fileName){
     // send $filename to browser
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mimeType = finfo_file($finfo, $filename);
+    $mimeType = finfo_file($finfo, $filePath);
     $size = filesize($filePath);
 
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
