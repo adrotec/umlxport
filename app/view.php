@@ -17,13 +17,13 @@
             </div>
         </div>
 
-        <?php /* ?>
+        <?php if(isset($settings->baseDirectory)) { ?>
             <div class="form-group">
                 <label>Base Directory</label>
                 <input class="form-control" type="text" name="baseDirectory"
                        placeholder="<?php echo $settings->baseDirectory; ?>" value="<?php echo $settings->baseDirectory; ?>">
             </div>
-        <?php //*/ ?>
+        <?php } ?>
         <div class="form-group">
             <label>Namespace</label>
             <input class="form-control" type="text" name="namespace"
@@ -91,8 +91,9 @@
 
         <?php } ?>
 
-        <!--<div class="form-group">-->
-        <button class="btn btn-primary btn-block should-confirm" name="action" value="generate">Generate Mappings</button>
-        <!--</div>-->
+        <div class="form-group">
+            <button class="btn btn-reset btn-default btn-block" name="action" value="update">Update Mappings</button>
+            <button class="btn btn-submit btn-primary btn-block should-confirm" name="action" value="generate">Generate Mapping Files</button>
+        </div>
     </section>
 </form>

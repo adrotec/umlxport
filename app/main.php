@@ -5,10 +5,10 @@ class ExportSettings {
     const ACTION_NONE = 'none';
     const ACTION_IMPORT = 'import';
     const ACTION_GENERATE = 'generate';
+    const ACTION_UPDATE = 'update';
 
 //    public $settings->baseDirectory = '/media/adrotec/uml-importer/test/App1';
-//    public $baseDirectory = '/var/www/MyApplication/src/TestBundle/Resources/config/doctrine';
-//    public $namespace = 'HelloWorld\App1\Entity';
+   // public $baseDirectory = '/var/www/MyApplication/src/TestBundle/Resources/config/doctrine';
     public $namespace = 'Acme\TestBundle\Entity';
     public $format = 'xml';
     public $fileNamePattern = '{namespace}.{class}.{extension}';
@@ -41,6 +41,9 @@ $settings = new ExportSettings();
 
 if($request->getMethod() === 'POST'){   
     foreach($settings as $key => $defaultVal){
+        if($key == 'baseDirectory' && !isset($settings->baseDirectory)){
+            continue;
+        }
         if(property_exists($settings, $key)){
             $settings->$key = $request->request->get($key);
         }
@@ -62,7 +65,7 @@ function getFileName($class, $settings){
             $extension = 'dcm.xml';
         }
         else {
-            // possible symfony 2
+            // possibly symfony 2
             $extension = 'orm.xml';
         }
     }
@@ -74,8 +77,10 @@ function getFileName($class, $settings){
         '{class}' => $classShortName,
         '{extension}' => $extension
     ));
-    
-//    $file = $settings->baseDirectory . DIRECTORY_SEPARATOR . $file;
+
+    if(isset($settings->baseDirectory)){
+       $file = $settings->baseDirectory . DIRECTORY_SEPARATOR . $file;
+    }
     
     return $file;
 }
@@ -87,7 +92,7 @@ if($settings->action == ExportSettings::ACTION_IMPORT && $umlFile = $request->fi
     }
 }
 
-if($settings->action == ExportSettings::ACTION_IMPORT || $settings->action == ExportSettings::ACTION_GENERATE) {
+if($settings->action == ExportSettings::ACTION_IMPORT){// || $settings->action == ExportSettings::ACTION_GENERATE) {
 
         $processor = new \Adrotec\UmlXport\Processor\UmlProcessor();
         $classes = $processor->process($settings->uml);
@@ -137,16 +142,18 @@ if($settings->action == ExportSettings::ACTION_IMPORT || $settings->action == Ex
 //    }
 }
     
-if($settings->action == ExportSettings::ACTION_GENERATE && !empty($settings->mappings)){
+if($settings->action == ExportSettings::ACTION_GENERATE && !empty($settings->mappings)) {
 
 //    $mapping = $request->request->get('mapping');
 //
 //    echo '<pre>';
 //    print_r($settings->mappings); exit;
-    
-    $zip = new \ZipArchive();
-    $zipFile = tempnam(sys_get_temp_dir(), 'IMPORT_ZIP_');
-    $zipped = $zip->open($zipFile, \ZipArchive::CREATE);
+    $zipped = false;
+    if(!isset($settings->baseDirectory)){
+        $zip = new \ZipArchive();
+        $zipFile = tempnam(sys_get_temp_dir(), 'IMPORT_ZIP_');
+        $zipped = $zip->open($zipFile, \ZipArchive::CREATE);
+    }
 
     foreach($settings->mappings as $class => $mappingCode){
 //            $class = strtr($class, '$', '\\');
@@ -156,22 +163,23 @@ if($settings->action == ExportSettings::ACTION_GENERATE && !empty($settings->map
         
         if($zipped == true){
             $zip->addFromString($file, $mappingCode);
-        } else
-        
-        if ($fileExists) {
-            $settings->fileNameCssClasses[$class] = 'file-name-existing';
-            $settings->fileNameMessages[$class] = 'FILE EXISTS: ';
-//            $content .= '<span style="color: red">FILE EXISTS: "' . $file . '"</span>';
-        } else {
-            if (@file_put_contents($file, $mappingCode)) {
-                $settings->fileNameCssClasses[$class] = 'file-name-new';
-                $settings->fileNameMessages[$class] = 'FILE CREATED: ';
-            } else {
+        } else if(isset($settings->baseDirectory)) {
+
+            if ($fileExists) {
                 $settings->fileNameCssClasses[$class] = 'file-name-existing';
-                $settings->fileNameMessages[$class] = 'ERROR: Failed to write to file: ';
-//                $content .= '<span style="color: red">ERROR: Failed to write to file: "' . $file . '"</span><br>';
+                $settings->fileNameMessages[$class] = 'FILE EXISTS: ';
+    //            $content .= '<span style="color: red">FILE EXISTS: "' . $file . '"</span>';
+            } else {
+                if (@file_put_contents($file, $mappingCode)) {
+                    $settings->fileNameCssClasses[$class] = 'file-name-new';
+                    $settings->fileNameMessages[$class] = 'FILE CREATED: ';
+                } else {
+                    $settings->fileNameCssClasses[$class] = 'file-name-existing';
+                    $settings->fileNameMessages[$class] = 'ERROR: Failed to write to file: ';
+    //                $content .= '<span style="color: red">ERROR: Failed to write to file: "' . $file . '"</span><br>';
+                }
+    //                    echo $file.'<br><textarea>'.$mapping.'</textarea><br>';
             }
-//                    echo $file.'<br><textarea>'.$mapping.'</textarea><br>';
         }
     }
 
